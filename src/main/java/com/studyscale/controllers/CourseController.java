@@ -24,9 +24,9 @@ public class CourseController {
 		System.out.println(course.getSubjectList());
 		return course;
 	}
-	
+
 	@PostMapping("/showallcourse")
-	public List<Course> showAllCourse(){
+	public List<Course> showAllCourse() {
 		return courseService.showCourse();
 	}
 }

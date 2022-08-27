@@ -39,8 +39,8 @@ public class UserController {
 	}
 
 	@PostMapping("/updatecompletedtopic")
-	public String updateCompletedTopic(@RequestParam List<String> completedTopicList, String courseName, String subjectName,
-			String unitName, int userId) {
+	public String updateCompletedTopic(@RequestParam List<String> completedTopicList, String courseName,
+			String subjectName, String unitName, int userId) {
 		userService.updateCompletedTopic(completedTopicList, courseName, subjectName, unitName, userId);
 		return "Updated successfully";
 	}

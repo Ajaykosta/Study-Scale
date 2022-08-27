@@ -89,7 +89,7 @@ public class UserService {
 	public void assignCourse(String courseName, int id) {
 		User user = getUserById(id);
 		Course course = courseService.getCourseByCourseName(courseName);
-		System.out.println("assignCourse : "+course);
+		System.out.println("assignCourse : " + course);
 		user.getCourseList().add(course);
 	}
 
@@ -104,11 +104,10 @@ public class UserService {
 							if (unit.getUnitName().equals(unitName)) {
 								Set<String> validTopics = getValidTopics(unit.getTopicsList(), completedTopicList);
 								unit.getCompletedTopicList().addAll(validTopics);
-								System.out.println("update: "+course);
+								System.out.println("update: " + course);
 								/*
 								 * for (String completedTopic : validTopics) {
-								 * unit.getCompletedTopicList().add(completedTopic);
-								 * }
+								 * unit.getCompletedTopicList().add(completedTopic); }
 								 */
 							}
 						}

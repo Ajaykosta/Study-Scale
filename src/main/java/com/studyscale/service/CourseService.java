@@ -51,8 +51,8 @@ public class CourseService {
 			if (course.getCourseName().equals(courseName)) {
 				for (Subject newSubject : course.getSubjectList()) {
 					if (newSubject.equals(subjectName)) {
-						for(Unit newUnit : newSubject.getUnitList()) {
-							if(newUnit.equals(unitName)) {
+						for (Unit newUnit : newSubject.getUnitList()) {
+							if (newUnit.equals(unitName)) {
 								unit = newUnit;
 							}
 						}
@@ -62,17 +62,17 @@ public class CourseService {
 		}
 		return unit;
 	}
-	
+
 	public String getTopicByTopicName(String courseName, String subjectName, String unitName, String topicName) {
 		String topic = null;
 		for (Course course : courseList) {
 			if (course.getCourseName().equals(courseName)) {
 				for (Subject newSubject : course.getSubjectList()) {
 					if (newSubject.equals(subjectName)) {
-						for(Unit newUnit : newSubject.getUnitList()) {
-							if(newUnit.equals(unitName)) {
-								for(String newTopic : newUnit.getTopicsList()) {
-									if(newTopic.equals(topicName)) {
+						for (Unit newUnit : newSubject.getUnitList()) {
+							if (newUnit.equals(unitName)) {
+								for (String newTopic : newUnit.getTopicsList()) {
+									if (newTopic.equals(topicName)) {
 										topic = newTopic;
 									}
 								}
