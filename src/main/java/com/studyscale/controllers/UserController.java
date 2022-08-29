@@ -2,7 +2,9 @@ package com.studyscale.controllers;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,13 +18,16 @@ import com.studyscale.service.UserService;
 
 @RestController
 public class UserController {
+	 static Logger log = Logger.getLogger(UserController.class.getName());
 	@Autowired
 	UserService userService;
-
+	
+	@CrossOrigin
 	@PostMapping("/login")
 	public User login(@RequestBody LoginData loginData) {
 		User user = null;
 		try {
+			log.info("login called with data :"+loginData.toString());
 			user = userService.login(loginData.getId(), loginData.getPassword());
 		} catch (UserNotFoundException unfe) {
 			unfe.getCause();

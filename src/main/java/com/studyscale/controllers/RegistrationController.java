@@ -15,6 +15,7 @@ import com.studyscale.util.Constants;
 
 @RestController
 public class RegistrationController {
+
 	@Autowired
 	UserService userService;
 
