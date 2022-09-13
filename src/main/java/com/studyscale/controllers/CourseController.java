@@ -3,21 +3,21 @@ package com.studyscale.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.studyscale.beans.Course;
 import com.studyscale.service.CourseService;
-import com.studyscale.service.UserService;
 
 @RestController
 public class CourseController {
 	@Autowired
 	CourseService courseService;
-	@Autowired
-	UserService userService;
 
+	@CrossOrigin
 	@PostMapping("/addcourse")
 	public Course addCourse(@RequestBody Course course) {
 		courseService.addCourse(course);
@@ -25,7 +25,8 @@ public class CourseController {
 		return course;
 	}
 
-	@PostMapping("/showallcourse")
+	@CrossOrigin
+	@GetMapping("/showallcourse")
 	public List<Course> showAllCourse() {
 		return courseService.showCourse();
 	}

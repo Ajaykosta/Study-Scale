@@ -3,6 +3,7 @@ package com.studyscale.controllers;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +25,7 @@ public class RegistrationController {
 		return "Study Scale is running.";
 	}
 
+	@CrossOrigin
 	@PostMapping("/registration")
 	public String userRegistration(String name, String eMail, String password) {
 		try {

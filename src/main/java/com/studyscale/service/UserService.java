@@ -14,6 +14,7 @@ import com.studyscale.beans.Course;
 import com.studyscale.beans.Subject;
 import com.studyscale.beans.Unit;
 import com.studyscale.beans.User;
+import com.studyscale.beans.UserCourseStatus;
 import com.studyscale.exceptions.CannotBeNullException;
 import com.studyscale.exceptions.InvalidPasswordException;
 import com.studyscale.exceptions.UserEMailExistException;
@@ -21,9 +22,12 @@ import com.studyscale.exceptions.UserNotFoundException;
 
 @Service
 public class UserService {
+
 	@Autowired
 	CourseService courseService;
+
 	Map<Integer, User> userList = new HashMap<>();
+	public List<UserCourseStatus> userCourseStatusList;
 
 	public void addUser(String name, String eMail, String password)
 			throws UserEMailExistException, CannotBeNullException {
@@ -37,10 +41,18 @@ public class UserService {
 			user.setPassword(encryptedPassword);
 			user.setCourseList(new ArrayList<Course>());
 			userList.put(user.getUserId(), user);
+			// userRepo.save(convertUserToUserDAO(user));
 		} else {
 			throw new UserEMailExistException();
 		}
 	}
+
+	/*
+	 * private UserDAO convertUserToUserDAO(User user) { UserDAO dao = new
+	 * UserDAO(); // dao.setId(user.getUserId()); dao.setName(user.getName());
+	 * dao.setEmail(user.getEMail()); dao.setPassword(user.getPassword()); return
+	 * dao; }
+	 */
 
 	private String passwordEncrynption(String password) {
 		return "Encrypted" + password;
@@ -86,11 +98,14 @@ public class UserService {
 		return userList;
 	}
 
-	public void assignCourse(String courseName, int id) {
+	public User assignCourse(String courseName, int id) {
 		User user = getUserById(id);
 		Course course = courseService.getCourseByCourseName(courseName);
 		System.out.println("assignCourse : " + course);
-		user.getCourseList().add(course);
+		if (course != null) {
+			user.getCourseList().add(course);
+		}
+		return user;
 	}
 
 	public void updateCompletedTopic(List<String> completedTopicList, String courseName, String subjectName,
@@ -127,4 +142,51 @@ public class UserService {
 		return validTopics;
 	}
 
+	public List<UserCourseStatus> getCourseStatus(int userId) {
+		User user = getUserById(userId);
+		for (Course course : user.getCourseList()) {
+			int subjectCount = 0;
+			for (Subject subject : course.getSubjectList()) {
+				List<UserCourseStatus> unitList = new ArrayList<>();
+				UserCourseStatus subjectStatus = new UserCourseStatus();
+				subjectStatus.setSerialNumber(++subjectCount);
+				subjectStatus.setSubjectName(subject.getSubjectName());
+				subjectStatus.setUnitName(null);
+				subjectStatus.setTotalPercent(100);
+				int unitCount = subject.getUnitList().size();
+				int eachUnitPercent = 100 / unitCount;
+				int totalTopics = 0;
+				int totalCompletedTopics = 0;
+				for (Unit unit : subject.getUnitList()) {
+					UserCourseStatus unitStatus = new UserCourseStatus();
+					int topicCount = unit.getTopicsList().size();
+					int completedTopicCount = unit.getCompletedTopicList().size();
+					totalTopics = totalTopics + topicCount;
+					totalCompletedTopics = totalCompletedTopics + completedTopicCount;
+					unitStatus.setSerialNumber(0);
+					unitStatus.setSubjectName(null);
+					unitStatus.setUnitName(unit.getUnitName());
+					unitStatus.setTotalPercent(eachUnitPercent);
+					unitStatus.setTotal(topicCount);
+					unitStatus.setCompleted(completedTopicCount);
+					unitStatus.setRemaining(topicCount - completedTopicCount);
+					float unitCompletedPercent = (completedTopicCount / topicCount) * 100;
+					unitStatus.setResult(unitCompletedPercent);
+					unitList.add(unitStatus);
+				}
+				int remainingTopics = totalTopics - totalCompletedTopics;
+				subjectStatus.setTotal(totalTopics);
+				subjectStatus.setCompleted(totalCompletedTopics);
+				subjectStatus.setRemaining(remainingTopics);
+				float subjectCompletionPercent = (totalCompletedTopics / totalTopics) * 100;
+				subjectStatus.setResult(subjectCompletionPercent);
+				userCourseStatusList.add(subjectStatus);
+				userCourseStatusList.addAll(unitList);
+			}
+		}
+		for (UserCourseStatus userCourseStatus : userCourseStatusList) {
+			System.out.println(userCourseStatus + "\n");
+		}
+		return userCourseStatusList;
+	}
 }
