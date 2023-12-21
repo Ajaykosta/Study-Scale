@@ -1,0 +1,46 @@
+{
+    "courseName": "Computer Science",
+    "courseStartedDate": null,
+    "courseEndingDate": null,
+    "subjectList": [
+        {
+            "subjectName": "Data Structure",
+            "unitList": [
+                {
+                    "unitName": "Stack",
+                    "topicsList": ["Infix","Postfix","Prefix","Pop","Push"]
+                },
+                {
+                    "unitName": "Recursion",
+                    "topicsList": ["factorial","fibonacci"]
+                }
+            ]
+        },
+        {
+            "subjectName": "Aptitude",
+            "unitList": [
+                {
+                    "unitName": "Number System",
+                    "topicsList":["Natural","Whole","Integer","Prime"]
+                },
+                {
+                    "unitName": "Area",
+                    "topicsList":["Square","Rectangle","Triangle"]
+                }
+            ]
+        },
+        {
+            "subjectName": "English",
+            "unitList": [
+                {
+                    "unitName": "Verbal Reasoning",
+                    "topicsList": ["Analogy","Blood Relation","Data Sufficiency"]
+                },
+                {
+                    "unitName": "Non-Verbal Reasoning",
+                    "topicsList": ["Series","Paper Folding"]
+                }
+            ]
+        }
+    ]
+}
